@@ -1,35 +1,43 @@
 #include <stdio.h>
 
-int division(int a,int b){	//a>b
-	if(b==0){
+int division(int a, int b){	// a > b
+	if (b == 0)
+	{
 		return a;
 	}
-	else{
-		return division(b,a%b);
+	else
+	{
+		return division(b, a%b);
 	}
-	
 }
 
 int main(){
 	
-	int x=0;
-	int y=0;
+	int num1, num2, ans;
 	
-	while(1){
-		printf("¿é¤J¨â­Ó¼Æ¦r :");
-		scanf("%d %d",&x,&y);
-		if(x==0 && y==0) return 0;
+	while (1) {
+
+		printf("è¼¸å…¥å…©å€‹æ•¸å­— : ");
+		scanf("%d %d", &num1, &num2);
 		
-		int ans=0;
+		if (num1 == 0 && num2 == 0)
+		{
+			return 0;
+		}
+		else if (num1 > num2)
+		{
+			ans = division(num1, num2);
+		}
+		else
+		{
+			ans = division(num2, num1);
+		}
 		
-		if(x>y) ans=division(x,y);
-		else ans=division(y,x);
-		
-		printf("³Ì¤j¤½¦]¼Æ : %d\n",ans);
-		printf("³Ì¤p¤½­¿¼Æ :%d\n",(x*y)/ans);
+		printf("æœ€å¤§å…¬å› æ•¸ : %d\n", ans);
+		printf("æœ€å°å…¬å€æ•¸ : %d\n", (num1 * num2) / ans);
 	}
 	
 	
-	
+	return 0;
 }
 
