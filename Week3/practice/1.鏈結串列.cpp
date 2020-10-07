@@ -22,82 +22,82 @@ struct List
 	void Delete();
 };
 
-//´¡¤J§Àºİ¡A©|¥¼±Æ§Ç
+// æ’å…¥å°¾ç«¯ï¼Œå°šæœªæ’åº
 void List::Insert()
 {
     int num;
     printf("Insert a number:");
     scanf("%d", &num);
     
-    Node *add=(Node*)malloc(sizeof(Node));
+    Node *add = (Node*)malloc(sizeof(Node));
     add->num = num;
     add->next = NULL;
     
-    if(tail==NULL) // head ¸ò tail ¬°ªÅ¡Aª½±µ§â head ¸ò tail ´«¦¨¥Ø«e¿é¤Jªº
+    if (tail == NULL) // 1. head è·Ÿ tail ç‚ºç©ºï¼Œç›´æ¥æŠŠ head è·Ÿ tail æ›æˆç›®å‰è¼¸å…¥çš„
 	{		
 		head = add;
 		tail = add;
 	}
-	else // tail ¤£¬°ªÅ®É¡Aptr©¹«á§ä(´¡¦b§À¤Ú)
+	else // 2. tail ä¸ç‚ºç©ºæ™‚ï¼Œptrå¾€å¾Œæ‰¾(æ’åœ¨å°¾å·´)
 	{
 		tail->next = add;
 		tail = add;
 	}
 }
 
-// Åã¥Ü
+// é¡¯ç¤º
 void List::Show()
 {
-	Node *tmp;
-	tmp = head;
+	Node *curr;
+	curr = head;
 	
-	while(tmp != NULL)
+	while(curr != NULL)
 	{
-		printf("%d->", tmp->num);	
-		tmp = tmp -> next;
+		printf("%d->", curr->num);	
+		curr = curr->next;
 	}
-	printf("\b \b\b \b");
-	printf("\n");
+	printf("\b \b\b \b\n"); // \b \b å¼·åˆ¶é€€å¾Œä¸€æ ¼
 }
 
-// §R°£
+// åˆªé™¤
 void List::Delete()
 {
     int num;
     printf("Delete a number: ");
-    scanf("%d",&num);
+    scanf("%d", &num);
     
-    Node* pre = NULL; // «e¤@­Ó¸`ÂI 
-	Node* curr = NULL; // ¥Ø«e¸`ÂI 
+    Node* pre = NULL; // å‰ä¸€å€‹ç¯€é»
+	Node* curr = NULL; // ç›®å‰ç¯€é» 
     pre = curr = head;
     
     while(curr != NULL)
 	{
 		if(curr->num == num)
 		{
-			if(head == curr) // ¦pªG­n§Rªº¬O head 
+			if (head == curr) // 1. å¦‚æœè¦åˆªçš„æ˜¯ head
 			{
-				head = head->next; // head ©¹¤U«ü
+				head = head->next; // head å¾€ä¸‹æŒ‡
 				free(curr);
 				return;
 			}
-			else if(tail == curr)
+			else if (tail == curr) // 2. å¦‚æœè¦åˆªçš„æ˜¯ tail
 			{
-				tail = pre;
-				pre->next = NULL;
+				tail = pre; // tail å¾€å‰æŒ‡
+				tail->next = NULL;
 				free(curr);
 				return;
 			}
-			else
+			else // 3. å¦‚æœè¦åˆªçš„æ˜¯ä¸­é–“
 			{
-				pre->next = curr->next; // §Úªº«e¤@­Ó«ü¨ì§Úªº¤U¤@­Ó 
-				free(curr); // §R±¼§Ú 
+				pre->next = curr->next; // æˆ‘çš„å‰ä¸€å€‹æŒ‡åˆ°æˆ‘çš„ä¸‹ä¸€å€‹
+				free(curr);
 				return;
 			}
 		}
-		else{
-			pre = curr;
-			curr = curr->next;
+		else
+		{
+			pre = curr; // å‰ä¸€å€‹å¾€ä¸‹æŒ‡
+			curr = curr->next; // ç›®å‰çš„å¾€ä¸‹æŒ‡
 		}
 	}
 } 
@@ -105,30 +105,29 @@ void List::Delete()
 int main() {
 	int op;
 	List list;
-	while(1){
-		printf("  ¾Ş§@¿ï¶µªí\n==============\n[1]¥[¤J¸ê®Æ\n[2]§R°£¸ê®Æ\n[3]¦C¦L\n[4]µ²§ô\n");
-		printf("¿é¤J¿ï¶µ:");
+	while (1)
+	{
+		printf("  æ“ä½œé¸é …è¡¨\n==============\n[1]åŠ å…¥è³‡æ–™\n[2]åˆªé™¤è³‡æ–™\n[3]åˆ—å°\n[4]çµæŸ\n");
+		printf("è¼¸å…¥é¸é …:");
 		scanf("%d",&op);
-		switch(op){
-			case 1:
-				// ¥[¤J¸ê®Æ
+		switch (op)
+		{
+			case 1: // åŠ å…¥è³‡æ–™
 				list.Insert();
 				break;
-			case 2:
-				// §R°£¸ê®Æ
+			case 2: // åˆªé™¤è³‡æ–™
 				list.Delete();
 				break;
-			case 3:
-				// ¦C¦L
+			case 3: // åˆ—å°
 				list.Show();
 				break;
-			case 4:
-				// µ²§ô
+			case 4: // çµæŸ
 				return 0;
 			default:
 				printf("ERROR!!!!\n");
 				return 0;	
 		}
 	}
-}
 
+	return 0;
+}
