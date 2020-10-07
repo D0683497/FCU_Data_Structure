@@ -20,7 +20,7 @@ struct List {
     void Show();
 };
 
-// ¤j¦Ü¤p±Æ§Ç(¦¸¤è) 
+// å¤§è‡³å°æ’åº(æ¬¡æ–¹) 
 void List::Insert(int num1, int num2)
 {
     Node* add = (Node*)malloc(sizeof(Node));
@@ -42,34 +42,34 @@ void List::Insert(int num1, int num2)
         
         while (curr != NULL)
         {
-        	if (curr->num2 == num2) // ·s¼Wªº¼Æ¤w¸g¦s¦b©ó¦ê¦C
+        	if (curr->num2 == num2) // æ–°å¢çš„æ•¸å·²ç¶“å­˜åœ¨æ–¼ä¸²åˆ—
         	{
-        		printf("%d¤w¸g¦s¦b¦ê¦C¤¤\n", num2);
+        		printf("%då·²ç¶“å­˜åœ¨ä¸²åˆ—ä¸­\n", num2);
         		return;
 			}
-			else if (curr->num2 < add->num2) // ¥i¥H´¡¤J 
+			else if (curr->num2 < add->num2) // å¯ä»¥æ’å…¥ 
 			{
-				if (curr == head) // ´¡¤Jªº¼Æ¬O³Ì¤pªº(³Ì«e­±)
+				if (curr == head) // æ’å…¥çš„æ•¸æ˜¯æœ€å°çš„(æœ€å‰é¢)
 				{
 					add->next = head;
 					head = add;
 					return;
 				}
-				else // ´¡¦b¤¤¶¡ 
+				else // æ’åœ¨ä¸­é–“ 
 				{
 					pre->next = add;
 					add->next = curr;
 					return;
 				} 
 			}
-			else // ¤U¤@­Ó 
+			else // ä¸‹ä¸€å€‹ 
 			{
 				pre = curr;
 				curr = curr->next;
 			}
         }
         
-        // ´¡¤Jªº¼Æ¬O³Ì¤jªº(³Ì«á­±)
+        // æ’å…¥çš„æ•¸æ˜¯æœ€å¤§çš„(æœ€å¾Œé¢)
 		tail->next = add;
 		tail = add;
 		return; 
@@ -144,7 +144,7 @@ int main()
 
     while (1)
 	{
-        printf("¿é¤J¦h¶µ¦¡1(«Y¼Æ ¦¸¤è): ");
+        printf("è¼¸å…¥å¤šé …å¼1(ä¿‚æ•¸ æ¬¡æ–¹): ");
         scanf("%d %d", &num1, &num2);
         
         if (num1 == 0 && num2 == 0)
@@ -162,7 +162,7 @@ int main()
     
     while (1)
 	{
-        printf("¿é¤J¦h¶µ¦¡2(«Y¼Æ ¦¸¤è): ");
+        printf("è¼¸å…¥å¤šé …å¼2(ä¿‚æ•¸ æ¬¡æ–¹): ");
         scanf("%d %d", &num1, &num2);
         
         if (num1 == 0 && num2 == 0)

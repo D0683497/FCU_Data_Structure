@@ -20,8 +20,8 @@ struct List {
     void Show();
 };
 
-// ¤p¦Ü¤j±Æ§Ç
-// ­Y±ı·s¼Wªº¼Æ¤w¸g¦s¦b©ó¦ê¦C¤¤¡A½Ğ­«·s¿é¤J
+// å°è‡³å¤§æ’åº
+// è‹¥æ¬²æ–°å¢çš„æ•¸å·²ç¶“å­˜åœ¨æ–¼ä¸²åˆ—ä¸­ï¼Œè«‹é‡æ–°è¼¸å…¥
 void List::Insert()
 {
 	int num;
@@ -46,34 +46,34 @@ void List::Insert()
         
         while (curr != NULL)
         {
-        	if (curr->num == num) // ·s¼Wªº¼Æ¤w¸g¦s¦b©ó¦ê¦C
+        	if (curr->num == num) // æ–°å¢çš„æ•¸å·²ç¶“å­˜åœ¨æ–¼ä¸²åˆ—
         	{
-        		printf("%d¤w¸g¦s¦b¦ê¦C¤¤\n", num);
+        		printf("%då·²ç¶“å­˜åœ¨ä¸²åˆ—ä¸­\n", num);
         		return;
 			}
-			else if (curr->num > add->num) // ¥i¥H´¡¤J 
+			else if (curr->num > add->num) // å¯ä»¥æ’å…¥ 
 			{
-				if (curr == head) // ´¡¤Jªº¼Æ¬O³Ì¤pªº(³Ì«e­±)
+				if (curr == head) // æ’å…¥çš„æ•¸æ˜¯æœ€å°çš„(æœ€å‰é¢)
 				{
 					add->next = head;
 					head = add;
 					return;
 				}
-				else // ´¡¦b¤¤¶¡ 
+				else // æ’åœ¨ä¸­é–“ 
 				{
 					pre->next = add;
 					add->next = curr;
 					return;
 				} 
 			}
-			else // ¤U¤@­Ó 
+			else // ä¸‹ä¸€å€‹ 
 			{
 				pre = curr;
 				curr = curr->next;
 			}
         }
         
-        // ´¡¤Jªº¼Æ¬O³Ì¤jªº(³Ì«á­±)
+        // æ’å…¥çš„æ•¸æ˜¯æœ€å¤§çš„(æœ€å¾Œé¢)
 		tail->next = add;
 		tail = add;
 		return; 
@@ -153,8 +153,8 @@ int main()
 
     while (1)
     {
-        printf("¾Ş§@¿ï¶µªí\n==============\n[1]¥[¤J¸ê®Æ\n[2]§R°£¸ê®Æ\n[3]¦C¦L\n[4]µ²§ô\n");
-        printf("¿é¤J¿ï¶µ: ");
+        printf("æ“ä½œé¸é …è¡¨\n==============\n[1]åŠ å…¥è³‡æ–™\n[2]åˆªé™¤è³‡æ–™\n[3]åˆ—å°\n[4]çµæŸ\n");
+        printf("è¼¸å…¥é¸é …: ");
         scanf("%d", &op);
 
         switch (op) {

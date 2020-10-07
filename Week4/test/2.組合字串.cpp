@@ -6,7 +6,7 @@ int main()
 {
 	char string[6];
 	
-	printf("¿é¤J¦r¦ê:");
+	printf("è¼¸å…¥å­—ä¸²:");
 	scanf("%s", string);
 	
 	int len = strlen(string);
@@ -24,7 +24,7 @@ int main()
 		}
 	}
 	
-	printf("¦r¦ê%s¦³%dºØ²Õ¦X¦r¦ê:", string, num);
+	printf("å­—ä¸²%sæœ‰%dç¨®çµ„åˆå­—ä¸²:", string, num);
 	
     return 0;
 }
