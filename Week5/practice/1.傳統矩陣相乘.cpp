@@ -14,9 +14,9 @@ int main()
 	
 	while(1)
 	{
-		printf("½Ğ¿é¤J¯x°}A(m*n)ªº¤j¤p: ");
+		printf("è«‹è¼¸å…¥çŸ©é™£A(m*n)çš„å¤§å°: ");
 		scanf("%d %d", &arrayARow, &arrayACol);
-		printf("½Ğ¨Ì§Ç¿é¤J¤Gºû°}¦CA(%d*%d)ªº¤¸¯À¤º®e:\n", arrayARow, arrayACol);
+		printf("è«‹ä¾åºè¼¸å…¥äºŒç¶­é™£åˆ—A(%d*%d)çš„å…ƒç´ å…§å®¹:\n", arrayARow, arrayACol);
 		for (i = 0; i < arrayARow; i++)
 		{
 			for (j = 0; j < arrayACol; j++)
@@ -25,9 +25,9 @@ int main()
 			}
 		}
 		
-		printf("½Ğ¿é¤J¯x°}B(m*n)ªº¤j¤p: ");
+		printf("è«‹è¼¸å…¥çŸ©é™£B(m*n)çš„å¤§å°: ");
 		scanf("%d %d", &arrayBRow, &arrayBCol);
-		printf("½Ğ¨Ì§Ç¿é¤J¤Gºû°}¦CB(%d*%d)ªº¤¸¯À¤º®e: \n", arrayBRow, arrayBCol);
+		printf("è«‹ä¾åºè¼¸å…¥äºŒç¶­é™£åˆ—B(%d*%d)çš„å…ƒç´ å…§å®¹: \n", arrayBRow, arrayBCol);
 		for (i = 0; i < arrayBRow; i++)
 		{
 			for (j = 0; j < arrayBCol; j++)
@@ -38,11 +38,11 @@ int main()
 		
 		if (arrayARow > MAX_SIZE || arrayACol > MAX_SIZE || arrayBRow > MAX_SIZE || arrayBCol > MAX_SIZE)
 		{
-			printf("½Ğ­«·s¿é¤J!!!!\n");
+			printf("è«‹é‡æ–°è¼¸å…¥!!!!\n");
 		}
 		else if (arrayARow != arrayBCol && arrayACol != arrayBRow)
 		{
-			printf("½Ğ­«·s¿é¤J!!!!\n");
+			printf("è«‹é‡æ–°è¼¸å…¥!!!!\n");
 		}
 		else
 		{
@@ -50,7 +50,7 @@ int main()
 		}
 	}
 	
-	/* ªì©l¤Æ */
+	/* åˆå§‹åŒ– */
 	for (i = 0; i < arrayARow; i++)
 	{
 		for (j = 0; j < arrayBCol; j++)
@@ -59,7 +59,7 @@ int main()
 		}
 	}
 	
-	/* ¬Û­¼ */
+	/* ç›¸ä¹˜ */
 	for (i = 0; i < arrayARow; i++)
 	{
 		for (j = 0; j < arrayBCol; j++)
@@ -72,7 +72,7 @@ int main()
 	}
 	
 	
-	/* ¿é¥X */
+	/* è¼¸å‡º */
 	for (i = 0; i < arrayARow; i++)
 	{
 		for (j = 0; j < arrayBCol; j++)
@@ -85,4 +85,3 @@ int main()
 	
 	return 0;
 }
-

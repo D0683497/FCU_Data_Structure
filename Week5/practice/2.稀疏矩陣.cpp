@@ -4,8 +4,8 @@
 #define MAX_SIZE 50
 
 typedef struct {
-    int row;  //¦æ
-    int col;  //¦C 
+    int row;  //è¡Œ
+    int col;  //åˆ— 
     int value;   
 } term;
 
@@ -21,9 +21,9 @@ int main()
 	
 	while(1)
 	{
-		printf("½Ğ¿é¤J¯x°}A(m*n)ªº¤j¤p: ");
+		printf("è«‹è¼¸å…¥çŸ©é™£A(m*n)çš„å¤§å°: ");
 		scanf("%d %d", &arrayARow, &arrayACol);
-		printf("½Ğ¨Ì§Ç¿é¤J¤Gºû°}¦CA(%d*%d)ªº¤¸¯À¤º®e:\n", arrayARow, arrayACol);
+		printf("è«‹ä¾åºè¼¸å…¥äºŒç¶­é™£åˆ—A(%d*%d)çš„å…ƒç´ å…§å®¹:\n", arrayARow, arrayACol);
 		for (i = 0; i < arrayARow; i++)
 		{
 			for (j = 0; j < arrayACol; j++)
@@ -32,9 +32,9 @@ int main()
 			}
 		}
 		
-		printf("½Ğ¿é¤J¯x°}B(m*n)ªº¤j¤p: ");
+		printf("è«‹è¼¸å…¥çŸ©é™£B(m*n)çš„å¤§å°: ");
 		scanf("%d %d", &arrayBRow, &arrayBCol);
-		printf("½Ğ¨Ì§Ç¿é¤J¤Gºû°}¦CB(%d*%d)ªº¤¸¯À¤º®e: \n", arrayBRow, arrayBCol);
+		printf("è«‹ä¾åºè¼¸å…¥äºŒç¶­é™£åˆ—B(%d*%d)çš„å…ƒç´ å…§å®¹: \n", arrayBRow, arrayBCol);
 		for (i = 0; i < arrayBRow; i++)
 		{
 			for (j = 0; j < arrayBCol; j++)
@@ -45,11 +45,11 @@ int main()
 		
 		if (arrayARow > MAX_SIZE || arrayACol > MAX_SIZE || arrayBRow > MAX_SIZE || arrayBCol > MAX_SIZE)
 		{
-			printf("½Ğ­«·s¿é¤J!!!!\n");
+			printf("è«‹é‡æ–°è¼¸å…¥!!!!\n");
 		}
 		else if (arrayARow != arrayBCol && arrayACol != arrayBRow)
 		{
-			printf("½Ğ­«·s¿é¤J!!!!\n");
+			printf("è«‹é‡æ–°è¼¸å…¥!!!!\n");
 		}
 		else
 		{
@@ -57,7 +57,7 @@ int main()
 		}
 	}
 	
-	/* ªì©l¤Æ */
+	/* åˆå§‹åŒ– */
 	for (i = 0; i < arrayARow; i++)
 	{
 		for (j = 0; j < arrayBCol; j++)
@@ -66,7 +66,7 @@ int main()
 		}
 	}
 	
-	/* ¬Û­¼ */
+	/* ç›¸ä¹˜ */
 	for (i = 0; i < arrayARow; i++)
 	{
 		for (j = 0; j < arrayBCol; j++)
@@ -78,7 +78,7 @@ int main()
 		}
 	}
 	
-	/* µ}²¨¯x°} */
+	/* ç¨€ç–çŸ©é™£ */
 	itemCount = 0;
 	for (i = 0; i < arrayARow; i++)
 	{
@@ -94,9 +94,9 @@ int main()
 		}
 	}
 	
-	/* ¿é¥X */
-	printf("µ}²¨¯x°}:\n");
-	printf("¤Ø¤o: %d*%d ¶µ¥Ø¼Æ: %d\n", arrayARow, arrayBCol, itemCount);
+	/* è¼¸å‡º */
+	printf("ç¨€ç–çŸ©é™£:\n");
+	printf("å°ºå¯¸: %d*%d é …ç›®æ•¸: %d\n", arrayARow, arrayBCol, itemCount);
 	printf("index   row     col     value\n");
 	for (i = 0; i < itemCount; i++)
 	{
@@ -107,4 +107,3 @@ int main()
 	
 	return 0;
 }
-
