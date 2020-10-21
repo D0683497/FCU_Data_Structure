@@ -3,8 +3,8 @@
 #define MAX_SIZE 100
 
 struct Node {
-    int coef; // «Y¼Æ 
-    int exp; // ¦¸¤è 
+    int coef; // ä¿‚æ•¸ 
+    int exp; // æ¬¡æ–¹ 
 };
 
 int index1 = 0;
@@ -17,11 +17,11 @@ void bubble_sort_1()
 	int i, j;
 	Node temp;
 	
-	for (i = 0; i < len-1; ++i) //´`ÀôN-1¦¸
+	for (i = 0; i < len-1; ++i) //å¾ªç’°N-1æ¬¡
 	{
-		for (j = 0; j < len-1-i; ++j) //¨C¦¸´`Àô­n¤ñ¸ûªº¦¸¼Æ
+		for (j = 0; j < len-1-i; ++j) //æ¯æ¬¡å¾ªç’°è¦æ¯”è¼ƒçš„æ¬¡æ•¸
 		{
-			if (list[j].exp < list[j+1].exp) // ¤ñ¤j¤p«á¥æ´«
+			if (list[j].exp < list[j+1].exp) // æ¯”å¤§å°å¾Œäº¤æ›
 			{
 				temp = list[j];
 				list[j] = list[j+1];
@@ -39,11 +39,11 @@ void bubble_sort_2()
 	int i, j;
 	Node temp;
 
-	for (i = 0; i < len-1; ++i) //´`ÀôN-1¦¸
+	for (i = 0; i < len-1; ++i) //å¾ªç’°N-1æ¬¡
 	{
-		for (j = index1+1; j < len-1-i+index1+1; ++j) //¨C¦¸´`Àô­n¤ñ¸ûªº¦¸¼Æ
+		for (j = index1+1; j < len-1-i+index1+1; ++j) //æ¯æ¬¡å¾ªç’°è¦æ¯”è¼ƒçš„æ¬¡æ•¸
 		{
-			if (list[j].exp < list[j+1].exp) // ¤ñ¤j¤p«á¥æ´«
+			if (list[j].exp < list[j+1].exp) // æ¯”å¤§å°å¾Œäº¤æ›
 			{
 				temp = list[j];
 				list[j] = list[j+1];
@@ -61,11 +61,11 @@ void bubble_sort_all()
 	int i, j;
 	Node temp;
 	
-	for (i = 0; i < len-1; ++i) //´`ÀôN-1¦¸
+	for (i = 0; i < len-1; ++i) //å¾ªç’°N-1æ¬¡
 	{
-		for (j = 0; j < len-1-i; ++j) //¨C¦¸´`Àô­n¤ñ¸ûªº¦¸¼Æ
+		for (j = 0; j < len-1-i; ++j) //æ¯æ¬¡å¾ªç’°è¦æ¯”è¼ƒçš„æ¬¡æ•¸
 		{
-			if (list[j].exp < list[j+1].exp) // ¤ñ¤j¤p«á¥æ´«
+			if (list[j].exp < list[j+1].exp) // æ¯”å¤§å°å¾Œäº¤æ›
 			{
 				temp = list[j];
 				list[j] = list[j+1];
@@ -83,11 +83,11 @@ void add_all()
 	int i, j;
 	Node temp;
 	
-	for (i = 0; i < len-1; ++i) //´`ÀôN-1¦¸
+	for (i = 0; i < len-1; ++i) //å¾ªç’°N-1æ¬¡
 	{
-		for (j = 0; j < len-1-i; ++j) //¨C¦¸´`Àô­n¤ñ¸ûªº¦¸¼Æ
+		for (j = 0; j < len-1-i; ++j) //æ¯æ¬¡å¾ªç’°è¦æ¯”è¼ƒçš„æ¬¡æ•¸
 		{
-			if (list[j].exp == list[j+1].exp) // ¤ñ¤j¤p«á¥æ´«
+			if (list[j].exp == list[j+1].exp) // æ¯”å¤§å°å¾Œäº¤æ›
 			{
 				temp.coef = list[j].coef + list[j+1].coef;
 				temp.exp =  list[j].exp;
@@ -108,11 +108,11 @@ int main()
     int i, j;
     bool flag = false;
 
-	/* ¿é¤J¦h¶µ¦¡1 */
+	/* è¼¸å…¥å¤šé …å¼1 */
     while (1)
 	{
 		flag = false;
-        printf("¿é¤J¦h¶µ¦¡1(«Y¼Æ ¦¸¤è): ");
+        printf("è¼¸å…¥å¤šé …å¼1(ä¿‚æ•¸ æ¬¡æ–¹): ");
         scanf("%d %d", &num1, &num2);
         
         if (num1 == 0 && num2 == 0)
@@ -124,14 +124,14 @@ int main()
 		{
 			for (i = 0; i < index1; i++)
 			{
-				if (list[i].exp == num2) // ¿é¤J¤w¸g¦³ªº¦¸¤è
+				if (list[i].exp == num2) // è¼¸å…¥å·²ç¶“æœ‰çš„æ¬¡æ–¹
 				{
 					list[i].coef += num1;
 					flag = true;
 				}
 			}
 			
-			if (!flag) // ¿é¤J·sªº¦¸¤è
+			if (!flag) // è¼¸å…¥æ–°çš„æ¬¡æ–¹
 			{
 				list[index1].coef = num1;
 				list[index1].exp = num2;
@@ -140,24 +140,24 @@ int main()
 		}
     }
     
-    /* ±Æ§Ç¦h¶µ¦¡1 */
+    /* æŽ’åºå¤šé …å¼1 */
     bubble_sort_1();
     
-    /* ¿é¥X¦h¶µ¦¡1 */
-    printf("--¦h¶µ¦¡1¬°: ");
+    /* è¼¸å‡ºå¤šé …å¼1 */
+    printf("--å¤šé …å¼1ç‚º: ");
     for (i = 0; i <= index1; i++)
     {
-    	if (list[i].coef == 0) // «Y¼Æ¬° 0 
+    	if (list[i].coef == 0) // ä¿‚æ•¸ç‚º 0 
     	{
     		continue;
 		}
-		else if (list[i].exp == 0) // ¦¸¤è¬° 0 (³Ì«á¤@­Ó)
+		else if (list[i].exp == 0) // æ¬¡æ–¹ç‚º 0 (æœ€å¾Œä¸€å€‹)
 		{
 			printf("%d", list[i].coef);
 		}
 		else
 		{
-			if (list[i].coef == 1) // «Y¼Æ¬° 1
+			if (list[i].coef == 1) // ä¿‚æ•¸ç‚º 1
 			{
 				printf("x^%d+", list[i].exp);
 			}
@@ -169,12 +169,12 @@ int main()
 	}
     printf("\n\n");
     
-    /* ¿é¤J¦h¶µ¦¡2 */
+    /* è¼¸å…¥å¤šé …å¼2 */
     index2 = index1 + 1;
 	while (1)
 	{
 		flag = false;
-        printf("¿é¤J¦h¶µ¦¡2(«Y¼Æ ¦¸¤è): ");
+        printf("è¼¸å…¥å¤šé …å¼2(ä¿‚æ•¸ æ¬¡æ–¹): ");
         scanf("%d %d", &num1, &num2);
         
         if (num1 == 0 && num2 == 0)
@@ -186,14 +186,14 @@ int main()
 		{
 			for (i = index1+1; i < index2; i++)
 			{
-				if (list[i].exp == num2) // ¿é¤J¤w¸g¦³ªº¦¸¤è
+				if (list[i].exp == num2) // è¼¸å…¥å·²ç¶“æœ‰çš„æ¬¡æ–¹
 				{
 					list[i].coef += num1;
 					flag = true;
 				}
 			}
 			
-			if (!flag) // ¿é¤J·sªº¦¸¤è
+			if (!flag) // è¼¸å…¥æ–°çš„æ¬¡æ–¹
 			{
 				list[index2].coef = num1;
 				list[index2].exp = num2;
@@ -202,24 +202,24 @@ int main()
 		}
     }
     
-    /* ±Æ§Ç¦h¶µ¦¡2 */
+    /* æŽ’åºå¤šé …å¼2 */
     bubble_sort_2();
     
-    /* ¿é¥X¦h¶µ¦¡2 */
-    printf("--¦h¶µ¦¡2¬°: ");
+    /* è¼¸å‡ºå¤šé …å¼2 */
+    printf("--å¤šé …å¼2ç‚º: ");
     for (i = index1+1; i <= index2; i++)
     {
-    	if (list[i].coef == 0) // «Y¼Æ¬° 0 
+    	if (list[i].coef == 0) // ä¿‚æ•¸ç‚º 0 
     	{
     		continue;
 		}
-		else if (list[i].exp == 0) // ¦¸¤è¬° 0 (³Ì«á¤@­Ó)
+		else if (list[i].exp == 0) // æ¬¡æ–¹ç‚º 0 (æœ€å¾Œä¸€å€‹)
 		{
 			printf("%d", list[i].coef);
 		}
 		else
 		{
-			if (list[i].coef == 1) // «Y¼Æ¬° 1
+			if (list[i].coef == 1) // ä¿‚æ•¸ç‚º 1
 			{
 				printf("x^%d+", list[i].exp);
 			}
@@ -242,20 +242,20 @@ int main()
 	bubble_sort_all();
 	
 	add_all();
-	printf("¬Û¥[µ²ªG¬°: ");
+	printf("ç›¸åŠ çµæžœç‚º: ");
 	for (i = 0; i <= index2; i++)
 	{
-		if (list[i].coef == 0) // «Y¼Æ¬° 0 
+		if (list[i].coef == 0) // ä¿‚æ•¸ç‚º 0 
     	{
     		continue;
 		}
-		else if (list[i].exp == 0) // ¦¸¤è¬° 0
+		else if (list[i].exp == 0) // æ¬¡æ–¹ç‚º 0
 		{
 			printf("%d+", list[i].coef);
 		}
 		else
 		{
-			if (list[i].coef == 1) // «Y¼Æ¬° 1
+			if (list[i].coef == 1) // ä¿‚æ•¸ç‚º 1
 			{
 				printf("x^%d+", list[i].exp);
 			}

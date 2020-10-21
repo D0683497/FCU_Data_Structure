@@ -7,9 +7,9 @@ int main()
 	
 	while(1)
 	{
-		printf("seat of classroom¡G");
+		printf("seat of classroomï¼š");
 		scanf("%d", &N);
-		printf("teacher fav num¡G");
+		printf("teacher fav numï¼š");
 		scanf("%d", &S);
 		
 		if (N == 0 && S == 0)
@@ -20,4 +20,3 @@ int main()
 	
 	printf("\nbest position:")
 }
-
