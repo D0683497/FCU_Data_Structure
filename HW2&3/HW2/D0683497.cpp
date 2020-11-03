@@ -69,6 +69,8 @@ void Poly::add_list_2(int coef, int exp)
 
 void Poly::add_list_3(int coef, int exp)
 {
+	int i;
+
 	if (coef == 0) // 係數為零次項
 	{
 		return;
@@ -80,6 +82,15 @@ void Poly::add_list_3(int coef, int exp)
 		list_3_next = list_2_next;
 	}
 
+	for (int i = list_3_start; i <= list_3_end; i++)
+	{
+		if (list[i].exp == exp)
+		{
+			list[i].coef = list[i].coef + coef;
+			return;
+		}
+	}
+
 	list[list_3_next].coef = coef;
 	list[list_3_next].exp = exp;
 	list_3_end = list_3_next;
@@ -87,42 +98,98 @@ void Poly::add_list_3(int coef, int exp)
 	return;
 }
 
-// TODO: 格式化輸出
 void Poly::print_list_1()
 {
 	int i;
 
 	for (int i = 0; i <= list_1_end; i++)
 	{
-		printf("%dx^%d+", list[i].coef, list[i].exp);
+		if (list[i].coef == 1)
+		{
+			if (list[i].exp == 0)
+			{
+				printf("1+");
+			}
+			else if (list[i].exp == 1)
+			{
+				printf("x+");
+			}
+			else
+			{
+				printf("x^%d+", list[i].exp);
+			}
+		}
+		else
+		{
+			printf("%dx^%d+", list[i].coef, list[i].exp);
+		}
 	}
+
+	printf("\b \b"); // 刪除最後一個符號
 	
 	return;
 }
 
-// TODO: 格式化輸出
 void Poly::print_list_2()
 {
 	int i;
 
 	for (int i = list_2_start; i <= list_2_end; i++)
 	{
-		printf("%dx^%d+", list[i].coef, list[i].exp);
+		if (list[i].coef == 1)
+		{
+			if (list[i].exp == 0)
+			{
+				printf("1+");
+			}
+			else if (list[i].exp == 1)
+			{
+				printf("x+");
+			}
+			else
+			{
+				printf("x^%d+", list[i].exp);
+			}
+		}
+		else
+		{
+			printf("%dx^%d+", list[i].coef, list[i].exp);
+		}
 	}
+
+	printf("\b \b"); // 刪除最後一個符號
 	
 	return;
 }
 
-// TODO: 格式化輸出
-// TODO: 移除重複
 void Poly::print_list_3()
 {
 	int i;
 
 	for (int i = list_3_start; i <= list_3_end; i++)
 	{
-		printf("%dx^%d+", list[i].coef, list[i].exp);
+		if (list[i].coef == 1)
+		{
+			if (list[i].exp == 0)
+			{
+				printf("1+");
+			}
+			else if (list[i].exp == 1)
+			{
+				printf("x+");
+			}
+			else
+			{
+				printf("x^%d+", list[i].exp);
+			}
+		}
+		else
+		{
+			printf("%dx^%d+", list[i].coef, list[i].exp);
+		}
 	}
+
+	printf("\b \b"); // 刪除最後一個符號
 	
 	return;
 }
@@ -152,7 +219,7 @@ void Poly::bubble_sort_list_3()
 	{
 		for (j = list_3_start; j < length-1-i+list_3_start; ++j) //每次循環要比較的次數
 		{
-			if (list[j].exp < list[j+1].exp) // 比大小後交換
+			if (list[j].exp > list[j+1].exp) // 比大小後交換
 			{
 				temp = list[j];
 				list[j] = list[j+1];
