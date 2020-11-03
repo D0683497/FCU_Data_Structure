@@ -9,7 +9,7 @@ struct Node {
 
 struct Poly
 {
-	// 開始位置跟結束位置跟下次要放的位置
+	// 開始位置、結束位置、下次要放的位置
     int list_1_start, list_1_end, list_1_next;
     int list_2_start, list_2_end, list_2_next;
 	int list_3_start, list_3_end, list_3_next; // 放相乘結果
@@ -82,7 +82,7 @@ void Poly::add_list_3(int coef, int exp)
 		list_3_next = list_2_next;
 	}
 
-	for (int i = list_3_start; i <= list_3_end; i++)
+	for (i = list_3_start; i <= list_3_end; i++)
 	{
 		if (list[i].exp == exp)
 		{
@@ -98,11 +98,13 @@ void Poly::add_list_3(int coef, int exp)
 	return;
 }
 
+/* 輸出多項式1 */
 void Poly::print_list_1()
 {
 	int i;
 
-	for (int i = 0; i <= list_1_end; i++)
+	printf("--多項式1為: ");
+	for (i = 0; i <= list_1_end; i++)
 	{
 		if (list[i].coef == 1)
 		{
@@ -119,6 +121,10 @@ void Poly::print_list_1()
 				printf("x^%d+", list[i].exp);
 			}
 		}
+		else if (list[i].exp == 0)
+		{
+			printf("%d+", list[i].coef);
+		}
 		else
 		{
 			printf("%dx^%d+", list[i].coef, list[i].exp);
@@ -126,15 +132,18 @@ void Poly::print_list_1()
 	}
 
 	printf("\b \b"); // 刪除最後一個符號
+	printf("\n\n");
 	
 	return;
 }
 
+/* 輸出多項式2 */
 void Poly::print_list_2()
 {
 	int i;
 
-	for (int i = list_2_start; i <= list_2_end; i++)
+	printf("--多項式2為: ");
+	for (i = list_2_start; i <= list_2_end; i++)
 	{
 		if (list[i].coef == 1)
 		{
@@ -151,6 +160,10 @@ void Poly::print_list_2()
 				printf("x^%d+", list[i].exp);
 			}
 		}
+		else if (list[i].exp == 0)
+		{
+			printf("%d+", list[i].coef);
+		}
 		else
 		{
 			printf("%dx^%d+", list[i].coef, list[i].exp);
@@ -158,15 +171,17 @@ void Poly::print_list_2()
 	}
 
 	printf("\b \b"); // 刪除最後一個符號
+    printf("\n\n");
 	
 	return;
 }
 
+/* 輸出結果 */
 void Poly::print_list_3()
 {
 	int i;
 
-	for (int i = list_3_start; i <= list_3_end; i++)
+	for (i = list_3_start; i <= list_3_end; i++)
 	{
 		if (list[i].coef == 1)
 		{
@@ -183,6 +198,10 @@ void Poly::print_list_3()
 				printf("x^%d+", list[i].exp);
 			}
 		}
+		else if (list[i].exp == 0)
+		{
+			printf("%d+", list[i].coef);
+		}
 		else
 		{
 			printf("%dx^%d+", list[i].coef, list[i].exp);
@@ -190,6 +209,7 @@ void Poly::print_list_3()
 	}
 
 	printf("\b \b"); // 刪除最後一個符號
+	printf("\n\n");
 	
 	return;
 }
@@ -198,9 +218,9 @@ void Poly::mul_list_1_2_to_3()
 {
 	int i, j;
 
-	for (int i = list_1_start; i <= list_1_end; i++)
+	for (i = list_1_start; i <= list_1_end; i++)
 	{
-		for (int j = list_2_start; j <= list_2_end; j++)
+		for (j = list_2_start; j <= list_2_end; j++)
 		{
 			add_list_3(list[i].coef * list[j].coef, list[i].exp + list[j].exp);
 		}
@@ -211,19 +231,20 @@ void Poly::mul_list_1_2_to_3()
 
 void Poly::bubble_sort_list_3()
 {
-	int length = list_3_end - list_3_start;
-	int i, j;
+	int length = list_3_end - list_3_start + 1;
+	int i;
 	Node temp;
 
-	for (i = 0; i < length-1; ++i) //循環N-1次
+	while (length > 1)
 	{
-		for (j = list_3_start; j < length-1-i+list_3_start; ++j) //每次循環要比較的次數
+		length--;
+		for (i = list_3_start; i < length+list_3_start; i++) //每次循環要比較的次數
 		{
-			if (list[j].exp > list[j+1].exp) // 比大小後交換
+			if (list[i].exp > list[i+1].exp) // 比大小後交換
 			{
-				temp = list[j];
-				list[j] = list[j+1];
-				list[j+1] = temp;
+				temp = list[i];
+				list[i] = list[i+1];
+				list[i+1] = temp;
 			}
 		}
 	}
@@ -251,9 +272,7 @@ int main()
     }
     
     /* 輸出多項式1 */
-    printf("--多項式1為: ");
     poly.print_list_1();
-    printf("\n\n");
     
     /* 輸入多項式2 */
 	while (1)
@@ -270,16 +289,16 @@ int main()
     }
     
     /* 輸出多項式2 */
-    printf("--多項式2為: ");
     poly.print_list_2();
-    printf("\n\n");
 
 	/* 相乘 */
 	poly.mul_list_1_2_to_3();
 
+	/* 排序 */
+	poly.bubble_sort_list_3();
+
 	/* 輸出結果 */
 	poly.print_list_3();
-	printf("\n\n");
 
     return 0;
 }
