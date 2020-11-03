@@ -1,6 +1,6 @@
 #include<stdio.h>
 #include<stdlib.h>
-#define MAX_SIZE 100
+#define MAX_SIZE 10000
 
 struct Node {
     int coef; // 係數
@@ -28,8 +28,9 @@ struct Poly
 	void add_list_3(int, int);
 	void print_list_1();
 	void print_list_2();
+	void print_list_3();
 	void mul_list_1_2_to_3();
-	// TODO: Bubble Sort List3
+	void bubble_sort_list_3();
 };
 
 void Poly::add_list_1(int coef, int exp)
@@ -55,6 +56,7 @@ void Poly::add_list_2(int coef, int exp)
 
 	if (list_2_next == 0) // 第一次放
 	{
+		list_2_start = list_1_next; 
 		list_2_next = list_1_next;
 	}
 
@@ -74,6 +76,7 @@ void Poly::add_list_3(int coef, int exp)
 
 	if (list_3_next == 0) // 第一次放
 	{
+		list_3_start = list_2_next;
 		list_3_next = list_2_next;
 	}
 
@@ -84,6 +87,7 @@ void Poly::add_list_3(int coef, int exp)
 	return;
 }
 
+// TODO: 格式化輸出
 void Poly::print_list_1()
 {
 	int i;
@@ -96,11 +100,26 @@ void Poly::print_list_1()
 	return;
 }
 
+// TODO: 格式化輸出
 void Poly::print_list_2()
 {
-	int i = list_2_start;
+	int i;
 
-	for (int i = 0; i <= list_2_end; i++)
+	for (int i = list_2_start; i <= list_2_end; i++)
+	{
+		printf("%dx^%d+", list[i].coef, list[i].exp);
+	}
+	
+	return;
+}
+
+// TODO: 格式化輸出
+// TODO: 移除重複
+void Poly::print_list_3()
+{
+	int i;
+
+	for (int i = list_3_start; i <= list_3_end; i++)
 	{
 		printf("%dx^%d+", list[i].coef, list[i].exp);
 	}
@@ -123,12 +142,32 @@ void Poly::mul_list_1_2_to_3()
 	return;
 }
 
+void Poly::bubble_sort_list_3()
+{
+	int length = list_3_end - list_3_start;
+	int i, j;
+	Node temp;
+
+	for (i = 0; i < length-1; ++i) //循環N-1次
+	{
+		for (j = list_3_start; j < length-1-i+list_3_start; ++j) //每次循環要比較的次數
+		{
+			if (list[j].exp < list[j+1].exp) // 比大小後交換
+			{
+				temp = list[j];
+				list[j] = list[j+1];
+				list[j+1] = temp;
+			}
+		}
+	}
+
+	return;
+}
+
 int main()
 {
 	Poly poly;
-
     int num1, num2;
-    int i, j;
 
 	/* 輸入多項式1 */
     while (1)
@@ -168,7 +207,12 @@ int main()
     poly.print_list_2();
     printf("\n\n");
 
+	/* 相乘 */
 	poly.mul_list_1_2_to_3();
+
+	/* 輸出結果 */
+	poly.print_list_3();
+	printf("\n\n");
 
     return 0;
 }
