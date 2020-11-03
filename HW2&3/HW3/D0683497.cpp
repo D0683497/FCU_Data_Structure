@@ -99,7 +99,7 @@ int main()
             jbug = jbug + jmove[k];
         }
 
-        if (all_count > 5000) // 超過 5000 步
+        if (all_count > 50000) // 超過 50000 步
         {
             break;
         }
