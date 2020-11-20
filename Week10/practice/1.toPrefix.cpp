@@ -17,6 +17,7 @@ enum Precedence
 	sub = 1,
 	mult = 2,
 	division = 2,
+	mod = 2,
 	left = 0,
 	right = 0
 };
@@ -37,9 +38,8 @@ typedef struct Stack
 	bool IsFull();
 	void Push(Data d);
 	Data Pop();
-	Data Top();
 	
-	MyStack()
+	Stack()
 	{
 		top=-1;
 	}
@@ -84,18 +84,10 @@ Data Stack::Pop()
 	}
 }
 
-Data Stack::Top() 
-{
-	if (IsEmpty() == true)
-		printf("The STACK is empty") ; 
-	else
-		return data[top];
-}
-
 typedef struct InOrder
 {
-	int itemcount;
-	Data item[MAX_SIZE]; // 原資料 
+	int inCount;
+	Data in[MAX_SIZE]; // 原資料
 	int preCount;
 	Data pre[MAX_SIZE]; // 前序
 	void Set(char* string);
@@ -103,50 +95,54 @@ typedef struct InOrder
 	void ShowIn();
 	void InToPre();
 	void ShowPre();
+	void ShowResule();
 } InOrder;
 
 void InOrder::Set(char* string)
 {
 	char s;
-	itemcount = 0;
+	inCount = 0;
 
-	while(!(string[itemcount] == '\0'))
+	while(!(string[inCount] == '\0'))
 	{
-		s = string[itemcount];
+		s = string[inCount];
 		if(s >= '0' && s <= '9')
 		{
-			item[itemcount].type = val;
-			item[itemcount].value = int(s) - '0';
+			in[inCount].type = val;
+			in[inCount].value = int(s) - '0';
 		}
 		else
 		{
-			item[itemcount].type = oper;
-			item[itemcount].oper = s;
+			in[inCount].type = oper;
+			in[inCount].oper = s;
 			switch (s)
 			{
 				case '+':
-					item[itemcount].pre = add;
+					in[inCount].pre = add;
 					break;
 				case '-':
-					item[itemcount].pre = sub;
+					in[inCount].pre = sub;
 					break;
 				case '*':
-					item[itemcount].pre = mult;
+					in[inCount].pre = mult;
 					break;
 				case '/':
-					item[itemcount].pre = division;
+					in[inCount].pre = division;
+					break;
+				case '%':
+					in[inCount].pre = mod;
 					break;
 				case ')':
-					item[itemcount].pre = right;
+					in[inCount].pre = right;
 					break;
 				case '(':
-					item[itemcount].pre = left;
+					in[inCount].pre = left;
 					break;
 				default:
 					break;
 			}
 		}
-		itemcount++;		
+		inCount++;		
 	}
 	
 	return;
@@ -154,8 +150,9 @@ void InOrder::Set(char* string)
 
 void InOrder::Reset()
 {
-	itemcount = 0;
-	memset(item, 0, sizeof(struct Data)*MAX_SIZE);
+	inCount = 0;
+	memset(in, 0, sizeof(struct Data)*MAX_SIZE);
+	preCount = 0;
 	memset(pre, 0, sizeof(struct Data)*MAX_SIZE);
 }
 
@@ -163,15 +160,15 @@ void InOrder::ShowIn()
 {
 	int i;
 	printf("Infix :");
-	for(i = 0; i < itemcount; i++)
+	for(i = 0; i < inCount; i++)
 	{
-		if(item[i].type == val)
+		if(in[i].type == val)
 		{
-			printf("%d", item[i].value);
+			printf("%d", in[i].value);
 		}
 		else
 		{
-			printf("%c", item[i].oper);
+			printf("%c", in[i].oper);
 		}	
 	}
 	printf("\n");
@@ -179,111 +176,80 @@ void InOrder::ShowIn()
 
 void InOrder::InToPre()
 {
-	int i, j, preCount;
-	Data reverse[MAX_SIZE];
-	Stack stack;
-	
-	/* 反轉，並將括號互換 */
-	j = itemcount - 1;
-	for (i = 0; i < itemcount; i++)
+	int i, j;
+	Stack operStack;
+	Stack valStack;
+
+	/* 從後面讀 */
+	for (i = inCount-1; i >=0; i--)
 	{
-		if (item[i].type == oper)
+		if (in[i].type == val)
 		{
-			switch (item[i].oper)
-			{
-				case ')':
-					reverse[j] = item[i];
-					reverse[j].oper = '(';
-					j--;
-					break;
-				case '(':
-					reverse[j] = item[i];
-					reverse[j].oper = ')';
-					j--;
-					break;
-				default:
-					reverse[j] = item[i];
-					j--;
-					break;
-			}
+			valStack.Push(in[i]);
 		}
 		else
 		{
-			reverse[j] = item[i];
-			j--;
-		}
-	}
-	
-	/*  */
-	for (i = 0; i < itemcount; i++)
-	{
-		if (reverse[i].type == val)
-		{
-			pre[preCount] = reverse[i];
-			preCount++;
-		}
-		else
-		{
-			switch (reverse[i].oper)
+			switch (in[i].oper)
 			{
 				case ')':
-					stack.Push(reverse[i]);
+					operStack.Push(in[i]);
 					break;
 				case '(':
+					/* operStack pop 到 valStack 直到遇到 ) */
 					while (1)
 					{
-						if (stack.IsEmpty() == true)
+						if (operStack.data[operStack.top].oper == ')')
 						{
+							operStack.Pop();
 							break;
-						}
-						
-						if (stack.Top().oper != ')')
-						{
-							pre[preCount] = stack.Pop();
-							preCount++;
 						}
 						else
 						{
-							stack.Pop();
-							break;
+							valStack.Push(operStack.Pop());
 						}
 					}
 					break;
 				default:
-					if (stack.IsEmpty() == true)
+					if (operStack.IsEmpty() == true)
 					{
-						stack.Push(reverse[i]);
-					}
-					else if (stack.Top().pre <= reverse[i].pre)
-					{
-						stack.Push(reverse[i]);
+						operStack.Push(in[i]);
 					}
 					else
 					{
-						while(1)
+						/* 堆疊裡的優先權小於或等於要放進去的 */
+						if (operStack.data[operStack.top].pre <= in[i].pre)
 						{
-							if (stack.IsEmpty() == true)
-							{
-								break;
-							}
-							else if (stack.Top().pre >= reverse[i].pre)
-							{
-								pre[preCount] = stack.Pop();
-								preCount++;
-							}
+							operStack.Push(in[i]);
 						}
-						stack.Push(reverse[i]);
+						else
+						{
+							/* 將 operStack pop 至 valStack，直到 operStack 裡的優先權小於或等於要放進去的 */
+							do {
+								valStack.Push(operStack.Pop());
+							} while(operStack.data[operStack.top].pre > in[i].pre && operStack.IsEmpty() != true);
+							operStack.Push(in[i]);
+						}
 					}
 					break;
 			}
 		}
 	}
 	
-//	while(stack.IsEmpty() != true)
-//	{
-//		pre[preCount] = stack.Pop();
-//		preCount++;
-//	}
+	/* 將 operStack 裡的資料全丟到 valStack */
+	while (operStack.top != -1)
+	{
+		valStack.Push(operStack.Pop());
+	}
+	
+	/* 將 valStack 的資料存到 pre */
+	preCount = 0;
+	while (valStack.top != -1)
+	{
+		pre[preCount] = valStack.Pop();
+		preCount++;
+	}
+	
+	return;
 }
 
 void InOrder::ShowPre()
@@ -304,6 +270,57 @@ void InOrder::ShowPre()
 	printf("\n");
 }
 
+void InOrder::ShowResule()
+{
+	int i;
+	int value1, value2;
+	Data result;
+	Stack stack;
+	printf("Result : ");
+	for (i = preCount-1; i >= 0; i--)
+	{
+		if (pre[i].type == val)
+		{
+			stack.Push(pre[i]);
+		}
+		else
+		{
+			value1 = stack.Pop().value;
+			value2 = stack.Pop().value;
+			switch (pre[i].oper)
+			{
+				case '+':
+					result.type = val;
+					result.value = value1 + value2;
+					break;
+				case '-':
+					result.type = val;
+					result.value = value1 - value2;
+					break;
+				case '*':
+					result.type = val;
+					result.value = value1 * value2;
+					break;
+				case '/':
+					result.type = val;
+					result.value = value1 / value2;
+					break;
+				case '%':
+					result.type = val;
+					result.value = value1 % value2;
+					break;
+				default:
+					break;
+			}
+			stack.Push(result);	
+		}
+	}
+
+	printf("%d\n", stack.data[stack.top].value);
+
+	printf("\n");
+}
+
 int main()
 {
 	char tmp[MAX_SIZE];
@@ -316,6 +333,7 @@ int main()
 		inOrder.ShowIn();
 		inOrder.InToPre();
 		inOrder.ShowPre();
+		inOrder.ShowResule();
 		
 		/* 重設所有變數 */
 		memset(tmp, 0, sizeof tmp);
