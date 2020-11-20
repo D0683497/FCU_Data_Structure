@@ -95,9 +95,9 @@ Data Stack::Top()
 typedef struct InOrder
 {
 	int itemcount;
-	Data item[MAX_SIZE]; // ­ì¸ê®Æ 
+	Data item[MAX_SIZE]; // åŸè³‡æ–™ 
 	int preCount;
-	Data pre[MAX_SIZE]; // «e§Ç
+	Data pre[MAX_SIZE]; // å‰åº
 	void Set(char* string);
 	void Reset();
 	void ShowIn();
@@ -183,7 +183,7 @@ void InOrder::InToPre()
 	Data reverse[MAX_SIZE];
 	Stack stack;
 	
-	/* ¤ÏÂà¡A¨Ã±N¬A¸¹¤¬´« */
+	/* åè½‰ï¼Œä¸¦å°‡æ‹¬è™Ÿäº’æ› */
 	j = itemcount - 1;
 	for (i = 0; i < itemcount; i++)
 	{
@@ -317,7 +317,7 @@ int main()
 		inOrder.InToPre();
 		inOrder.ShowPre();
 		
-		/* ­«³]©Ò¦³ÅÜ¼Æ */
+		/* é‡è¨­æ‰€æœ‰è®Šæ•¸ */
 		memset(tmp, 0, sizeof tmp);
 		inOrder.Reset();
 	}
