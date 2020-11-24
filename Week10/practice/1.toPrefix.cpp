@@ -2,89 +2,10 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "lib.h"
 #define FILE_NAME "mid_109_input_2D.txt"
-#define MAX_SIZE 80
 
-enum Type
-{
-	val,
-	oper
-};
-
-enum Precedence
-{
-	add = 1,
-	sub = 1,
-	mult = 2,
-	division = 2,
-	mod = 2,
-	left = 0,
-	right = 0
-};
-
-typedef struct Data
-{
-	Type type;
-	int value;
-	char oper;
-	Precedence pre;
-} Data;
-
-typedef struct Stack
-{
-	int top;
-	Data data[MAX_SIZE]; 
-	bool IsEmpty();
-	bool IsFull();
-	void Push(Data d);
-	Data Pop();
-	
-	Stack()
-	{
-		top=-1;
-	}
-} Stack;
-
-bool Stack::IsEmpty()
-{	
-	if(top == -1)
-		return true;
-	else
-		return false;	
-}
-
-bool Stack::IsFull()
-{
-	if(top == MAX_SIZE-1)
-		return true;
-	else
-		return false;
-}
-
-void Stack::Push(Data d)
-{
-	if(IsFull() == true)
-		printf("Stack is full. Cannot Push any element.\n");
-	else
-	{
-		top++;
-		data[top]= d;
-	}	
-}
-
-Data Stack::Pop()
-{
-	if(IsEmpty() == true)
-	{
-		printf("Stack is Empty. Cannot pop any element.\n");
-	}
-	else
-	{
-		return data[top--];
-	}
-}
-
-typedef struct InOrder
+typedef struct Order
 {
 	int inCount;
 	Data in[MAX_SIZE]; // 原資料
@@ -92,13 +13,13 @@ typedef struct InOrder
 	Data pre[MAX_SIZE]; // 前序
 	void Set(char* string);
 	void Reset();
-	void ShowIn();
 	void InToPre();
+	void ShowIn();
 	void ShowPre();
-	void ShowResule();
-} InOrder;
+	void ShowPreResule();
+} Order;
 
-void InOrder::Set(char* string)
+void Order::Set(char* string)
 {
 	char s;
 	inCount = 0;
@@ -148,7 +69,7 @@ void InOrder::Set(char* string)
 	return;
 }
 
-void InOrder::Reset()
+void Order::Reset()
 {
 	inCount = 0;
 	memset(in, 0, sizeof(struct Data)*MAX_SIZE);
@@ -156,25 +77,7 @@ void InOrder::Reset()
 	memset(pre, 0, sizeof(struct Data)*MAX_SIZE);
 }
 
-void InOrder::ShowIn()
-{
-	int i;
-	printf("Infix :");
-	for(i = 0; i < inCount; i++)
-	{
-		if(in[i].type == val)
-		{
-			printf("%d", in[i].value);
-		}
-		else
-		{
-			printf("%c", in[i].oper);
-		}	
-	}
-	printf("\n");
-}
-
-void InOrder::InToPre()
+void Order::InToPre()
 {
 	int i, j;
 	Stack operStack;
@@ -252,10 +155,28 @@ void InOrder::InToPre()
 	return;
 }
 
-void InOrder::ShowPre()
+void Order::ShowIn()
 {
 	int i;
-	printf("Prefix :");
+	printf("Infix : ");
+	for(i = 0; i < inCount; i++)
+	{
+		if(in[i].type == val)
+		{
+			printf("%d", in[i].value);
+		}
+		else
+		{
+			printf("%c", in[i].oper);
+		}	
+	}
+	printf("\n");
+}
+
+void Order::ShowPre()
+{
+	int i;
+	printf("Prefix : ");
 	for(i = 0; i < preCount; i++)
 	{
 		if(pre[i].type == val)
@@ -270,7 +191,7 @@ void InOrder::ShowPre()
 	printf("\n");
 }
 
-void InOrder::ShowResule()
+void Order::ShowPreResule()
 {
 	int i;
 	int value1, value2;
@@ -324,20 +245,20 @@ void InOrder::ShowResule()
 int main()
 {
 	char tmp[MAX_SIZE];
-	InOrder inOrder;
+	Order order;
 	
 	FILE *fptr = fopen(FILE_NAME, "r");
 	while(fscanf(fptr, "%s", tmp) != EOF)
 	{
-		inOrder.Set(tmp);
-		inOrder.ShowIn();
-		inOrder.InToPre();
-		inOrder.ShowPre();
-		inOrder.ShowResule();
+		order.Set(tmp);
+		order.ShowIn();
+		order.InToPre();
+		order.ShowPre();
+		order.ShowPreResule();
 		
 		/* 重設所有變數 */
 		memset(tmp, 0, sizeof tmp);
-		inOrder.Reset();
+		order.Reset();
 	}
 	fclose(fptr);
 	
