@@ -3,62 +3,13 @@
 #define MAX 80
 
 struct Thtree {
-    int data;     
+    int data; 
+    int index;    
     bool thLeft;//0表示左分支為正常Link，反之為引線
     Thtree *Left;
     bool thRight;//0表示右分支為正常Link，反之為引線
     Thtree *Right; 
 };
-
-Thtree* Insert(Thtree* root, int input)
-{
-    Thtree* ptr = root;
-
-    // 建立要插入節點
-    Thtree *tmp = (Thtree*)malloc(sizeof(Thtree));
-    tmp->data = input;
-    tmp->thLeft = true;
-    tmp->thRight = true;
-
-    if (ptr == NULL) // 如果 root 為空
-    {
-        root = tmp;
-        tmp->Left = NULL;
-        tmp->Right = NULL;
-    }
-    else
-    {
-        while(1)
-        {
-            if (ptr->thLeft == true) // 插左邊
-            {
-                tmp->Left = ptr->Left;
-                tmp->Right = ptr;
-                ptr->thLeft = false;
-                ptr->Left = tmp;
-                break;
-            }
-            else if (ptr->thRight == true) // 插右邊
-            {
-                tmp->Left = ptr;
-                tmp->Right = ptr->Right;
-                ptr->thRight = false;
-                ptr->Right = tmp;
-                break;
-            }
-            else if (ptr->Left->thLeft == true || ptr->Left->thRight == true) // 左移
-            {
-                ptr = ptr->Left;
-            }
-            else if (ptr->Right->thLeft == true || ptr->Right->thRight == true) // 右移
-            {
-                ptr = ptr->Right;
-            }
-        }
-    }
- 
-    return root;
-}
 
 Thtree* InorderSuccessor(Thtree* ptr)
 {
@@ -143,6 +94,76 @@ void PrintThreaded(Thtree* root, int input)
     printf("\n");
 }
 
+Thtree* FindCanInsert(Thtree* root, int index)
+{
+    if (root == NULL)
+    {
+        printf("Tree is empty");
+    }
+        
+    Thtree* ptr = root;
+    while (ptr->thLeft == false)
+    {
+        ptr = ptr->Left;
+    }
+ 
+    while (ptr != NULL)
+    {
+        if (ptr->index == index)
+        {
+            return ptr;
+        }
+        ptr = InorderSuccessor(ptr);
+    }
+}
+
+Thtree* Insert(Thtree* root, int input, int index)
+{
+    Thtree* ptr = root;
+
+    // 建立要插入節點
+    Thtree *tmp = (Thtree*)malloc(sizeof(Thtree));
+    tmp->data = input;
+    tmp->index = index;
+    tmp->thLeft = true;
+    tmp->thRight = true;
+
+    if (ptr == NULL) // 如果 root 為空
+    {
+        root = tmp;
+        tmp->Left = NULL;
+        tmp->Right = NULL;
+    }
+    else
+    {
+        if (index%2 != 0) // index 為奇數
+        {
+            index--;
+        }
+
+        ptr = FindCanInsert(ptr, index/2);
+
+        if (ptr->thLeft == true) // 插左邊
+        {
+            tmp->Left = ptr->Left;
+            tmp->Right = ptr;
+            ptr->thLeft = false;
+            ptr->Left = tmp;
+        }
+        else if (ptr->thRight == true) // 插右邊
+        {
+            tmp->Left = ptr;
+            tmp->Right = ptr->Right;
+            ptr->thRight = false;
+            ptr->Right = tmp;
+        }
+    }
+ 
+    return root;
+}
+
+
+
 int main()
 {
     int i;
@@ -183,7 +204,7 @@ int main()
                         {
                             inputArray[length] = input;
                             length++;
-                            root = Insert(root, input);
+                            root = Insert(root, input, length);
                         }
                         else
                         {
@@ -203,7 +224,7 @@ int main()
                             {
                                 inputArray[length] = input;
                                 length++;
-                                root = Insert(root, input);
+                                root = Insert(root, input, length);
                             }
                         }
                         
