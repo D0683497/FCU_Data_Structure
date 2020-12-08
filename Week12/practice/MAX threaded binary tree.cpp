@@ -12,9 +12,7 @@ struct Thtree {
 
 Thtree* Insert(Thtree* root, int input)
 {
-    printf("Insert %d\n", input);
     Thtree* ptr = root;
-    // Thtree* par = NULL; // 要插的前一個
 
     // 建立要插入節點
     Thtree *tmp = (Thtree*)malloc(sizeof(Thtree));
@@ -52,7 +50,7 @@ Thtree* Insert(Thtree* root, int input)
             {
                 ptr = ptr->Left;
             }
-            else // 右移
+            else if (ptr->Right->thLeft == true || ptr->Right->thRight == true) // 右移
             {
                 ptr = ptr->Right;
             }
@@ -97,6 +95,51 @@ void Inorder(Thtree* root)
         ptr = InorderSuccessor(ptr);
     }
 
+    printf("\n\n");
+}
+
+void PrintThreaded(Thtree* root, int input)
+{
+    if (root == NULL)
+    {
+        printf("Tree is empty");
+    }
+        
+    Thtree* ptr = root;
+    while (ptr->thLeft == false)
+    {
+        ptr = ptr->Left;
+    }
+ 
+    while (ptr != NULL)
+    {
+        if (ptr->data == input)
+        {
+            if (ptr->thLeft == true && ptr->Left != NULL)
+            {
+                printf("Left:%d\n", ptr->Left->data);
+            }
+            else
+            {
+                printf("Left:Not a threaded\n");
+            }
+            if (ptr->thRight == true && ptr->Right != NULL)
+            {
+                printf("Right:%d\n", ptr->Right->data);
+                break;
+            }
+            else
+            {
+                printf("Right:Not a threaded\n");
+                break;
+            }
+        }
+        else
+        {
+            ptr = InorderSuccessor(ptr);
+        }
+    }
+
     printf("\n");
 }
 
@@ -130,7 +173,7 @@ int main()
                     scanf("%d", &input);
                     if (input == 0)
                     {
-                        printf("End Insert\n");
+                        printf("End Insert\n\n");
                         break;
                     }
                     else
@@ -174,6 +217,8 @@ int main()
                 Inorder(root);
                 break;
             case 4:
+                scanf("%d", &input);
+                PrintThreaded(root, input);
                 break;
             default:
                 break;
