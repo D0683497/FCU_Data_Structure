@@ -1,191 +1,115 @@
 #include<stdio.h> 
 #include<stdlib.h>
+#define MAX 80
 
 struct Thtree {
     int data;     
     bool thLeft;//0表示左分支為正常Link，反之為引線
-    struct Thtree *Left;
+    Thtree *Left;
     bool thRight;//0表示右分支為正常Link，反之為引線
-    struct Thtree *Right; 
+    Thtree *Right; 
 };
 
-struct List
+Thtree* Insert(Thtree* root, int input)
 {
-	Thtree* root;
-	
-	List() 
-	{
-		root=NULL;
-	}
-	
-	void Insert(int input);
-	void Delete(int input);
-	void Print();
-    void PrintThreaded();
-};
+    printf("Insert %d\n", input);
+    Thtree* ptr = root;
+    // Thtree* par = NULL; // 要插的前一個
 
-void List::Insert(int input)
-{
-    Thtree *ptr = root;
-    Thtree *par = NULL;
-
-    // 找重複
-    while (ptr != NULL)
-    {
-        if (input == (ptr->data)) 
-        { 
-            printf("already exit.\n"); 
-            return; 
-        }
-
-        par = ptr;
-
-        if (input < ptr->data) // Moving on left subtree. 
-        { 
-            if (ptr->thLeft == false)
-            {
-                ptr = ptr->Left;
-            } 
-            else
-            {
-                break;
-            }
-        }
-        else // Moving on right subtree. 
-        { 
-            if (ptr->thRight == false)
-            {
-                ptr = ptr->Right;
-            }
-            else
-            {
-                break;
-            }
-        }
-    }
-
-    // 新增
-    Thtree *tmp = (Thtree*)malloc(sizeof(Thtree));;
-    tmp->data = input; 
-    tmp->thLeft = true; 
+    // 建立要插入節點
+    Thtree *tmp = (Thtree*)malloc(sizeof(Thtree));
+    tmp->data = input;
+    tmp->thLeft = true;
     tmp->thRight = true;
 
-    if (par == NULL) 
-    { 
+    if (ptr == NULL) // 如果 root 為空
+    {
         root = tmp;
-        tmp->Left = NULL; 
-        tmp->Right = NULL; 
-    }
-    else if (input < (par->data)) 
-    { 
-        tmp->Left = par->Left; 
-        tmp->Right = par; 
-        par->thLeft = false; 
-        par->Left = tmp; 
+        tmp->Left = NULL;
+        tmp->Right = NULL;
     }
     else
-    { 
-        tmp->Left = par; 
-        tmp->Right = par->Right; 
-        par->thRight = false; 
-        par->Right = tmp; 
-    }
-
-    return;
-}
-
-// https://www.geeksforgeeks.org/threaded-binary-search-tree-deletion/?ref=lbp
-void List::Delete(int input)
-{
-    // Case A: Leaf Node need to be deleted 
-    // Case B: Node to be deleted has only one child
-    // Case C: Node to be deleted has two children 
-
-    Thtree *par = NULL;
-    Thtree *ptr = root;
-    bool found = false;
-
-    // 搜尋
-    while (ptr != NULL)
     {
-        if (input == ptr->data)
+        while(1)
         {
-            found = true;
-            break;
-        }
-
-        par = ptr;
-        
-        if (input < ptr->data)
-        {
-            if (ptr->thLeft == false)
+            if (ptr->thLeft == true) // 插左邊
+            {
+                tmp->Left = ptr->Left;
+                tmp->Right = ptr;
+                ptr->thLeft = false;
+                ptr->Left = tmp;
+                break;
+            }
+            else if (ptr->thRight == true) // 插右邊
+            {
+                tmp->Left = ptr;
+                tmp->Right = ptr->Right;
+                ptr->thRight = false;
+                ptr->Right = tmp;
+                break;
+            }
+            else if (ptr->Left->thLeft == true || ptr->Left->thRight == true) // 左移
             {
                 ptr = ptr->Left;
             }
-            else
-            {
-                break;
-            }
-        }
-        else
-        {
-            if (ptr->thRight == false)
+            else // 右移
             {
                 ptr = ptr->Right;
             }
-            else
-            {
-                break;
-            }
         }
+    }
+ 
+    return root;
+}
+
+Thtree* InorderSuccessor(Thtree* ptr)
+{
+    if (ptr->thRight == true)
+    {
+        return ptr->Right;
+    }
+ 
+    ptr = ptr->Right;
+    while (ptr->thLeft == false)
+    {
+        ptr = ptr->Left;
+    }
+        
+    return ptr;
+}
+
+void Inorder(Thtree* root)
+{
+    if (root == NULL)
+    {
+        printf("Tree is empty");
+    }
+        
+    Thtree* ptr = root;
+    while (ptr->thLeft == false)
+    {
+        ptr = ptr->Left;
+    }
+ 
+    while (ptr != NULL)
+    {
+        printf("%d ", ptr->data);
+        ptr = InorderSuccessor(ptr);
     }
 
-    if (found == false)
-    {
-        printf("Not Found.\n");
-        return;
-    }
-    else if (ptr->thLeft == false && ptr->thRight == false) // Two Children
-    {
-        // root = caseC(root, par, ptr);
-    }
-    else if (ptr->thLeft == false) // Only Left Child
-    {
-        // root = caseB(root, par, ptr);
-    }
-    else if (ptr->thRight == false) // Only Right Child
-    {
-        // root = caseB(root, par, ptr);
-    }
-    else // No child
-    {
-        // root = caseA(root, par, ptr);
-        if (par == NULL)
-        {
-            root = NULL;
-        }
-        else if (ptr == par->Left)
-        {
-            par->thLeft = true;
-            par->Left = ptr->Left;
-        }
-        else
-        {
-            par->thRight = true;
-            par->Right = ptr->Right;
-        }
-    
-        free(ptr);
-    }
-    
-    return;
+    printf("\n");
 }
 
 int main()
 {
+    int i;
+    int length = 0;
+    int inputArray[MAX] = {};
+    bool flag = false;
+    Thtree *root = NULL;
     int op;
     int input;
-    List list;
+
     while(1)
     {
         printf("MAX threaded binary tree\n");
@@ -211,13 +135,43 @@ int main()
                     }
                     else
                     {
-                        list.Insert(input);
+                        // 判斷重複
+                        if (length == 0)
+                        {
+                            inputArray[length] = input;
+                            length++;
+                            root = Insert(root, input);
+                        }
+                        else
+                        {
+                            for (i = 0; i < length; i++)
+                            {
+                                if (inputArray[i] == input)
+                                {
+                                    flag = true;
+                                }
+                            }
+                            if (flag == true)
+                            {
+                                flag = false;
+                                printf("already exit.\n");
+                            }
+                            else
+                            {
+                                inputArray[length] = input;
+                                length++;
+                                root = Insert(root, input);
+                            }
+                        }
+                        
                     }
                 }
                 break;
             case 2:
+                printf("加分題\n");
                 break;
             case 3:
+                Inorder(root);
                 break;
             case 4:
                 break;
