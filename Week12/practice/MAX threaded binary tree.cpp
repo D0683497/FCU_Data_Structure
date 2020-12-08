@@ -70,6 +70,10 @@ void PrintThreaded(Thtree* root, int input)
             {
                 printf("Left:%d\n", ptr->Left->data);
             }
+            else if (ptr->thLeft == true && ptr->Left == NULL)
+            {
+                printf("Left:%d\n", root->data);
+            }
             else
             {
                 printf("Left:Not a threaded\n");
@@ -77,6 +81,11 @@ void PrintThreaded(Thtree* root, int input)
             if (ptr->thRight == true && ptr->Right != NULL)
             {
                 printf("Right:%d\n", ptr->Right->data);
+                break;
+            }
+            else if (ptr->thRight == true && ptr->Right == NULL)
+            {
+                printf("Right:%d\n", root->data);
                 break;
             }
             else
