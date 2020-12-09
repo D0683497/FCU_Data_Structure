@@ -65,6 +65,7 @@ Node* Delete(Node* root, int input)
 {
     if (root == NULL)
     {
+        printf("%d does not exist in the tree.\n", input);
         return root;
     }
     
@@ -76,7 +77,7 @@ Node* Delete(Node* root, int input)
     {
         root->right = Delete(root->right, input);
     }
-    else
+    else if (root->data == input)
     {
         if (root->left == NULL)
         {
@@ -90,10 +91,10 @@ Node* Delete(Node* root, int input)
             free(root);
             return temp;
         }
- 
-        Node* temp = MinValueNode(root->right);
+
+        Node* temp = MinValueNode(root->left);
         root->data = temp->data;
-        root->right = Delete(root->right, temp->data);
+        root->left = Delete(root->left, temp->data);
     }
 
     return root;
@@ -113,6 +114,7 @@ int main()
         {
             case 0:
                 end = true;
+                printf("\n----------------------\n\n");
                 break;
             case 1:
                 printf("Insert a number:");
