@@ -31,7 +31,7 @@ void Inorder(Thtree* root)
 {
     if (root == NULL)
     {
-        printf("Tree is empty");
+        printf("Tree is empty\n\n");
     }
         
     Thtree* ptr = root;
@@ -171,7 +171,183 @@ Thtree* Insert(Thtree* root, int input, int index)
     return root;
 }
 
+Thtree* inSucc(Thtree* ptr)
+{
+    if (ptr->thRight == true)
+    {
+        return ptr->Right;
+    }
+ 
+    ptr = ptr->Right;
+    while (ptr->thLeft == false)
+    {
+        ptr = ptr->Left;
+    }
+ 
+    return ptr;
+}
 
+Thtree* inPred(Thtree* ptr)
+{
+    if (ptr->thLeft == true)
+    {
+        return ptr->Left;
+    }
+ 
+    ptr = ptr->Left;
+    while (ptr->thRight == false)
+    {
+        ptr = ptr->Right;
+    }
+        
+    return ptr;
+}
+
+Thtree* caseA(Thtree* root, Thtree* par, Thtree* ptr)
+{
+    if (par == NULL)
+    {
+        root = NULL;
+    }
+    else if (ptr == par->Left)
+    {
+        par->thLeft = true;
+        par->Left = ptr->Left;
+    }
+    else {
+        par->thRight = true;
+        par->Right = ptr->Right;
+    }
+ 
+    free(ptr);
+    printf("Complete Delete\n\n");
+    return root;
+}
+
+Thtree* caseB(Thtree* root, Thtree* par, Thtree* ptr)
+{
+    Thtree* child;
+ 
+    if (ptr->thLeft == false)
+    {
+        child = ptr->Left;
+    }
+    else
+    {
+        child = ptr->Right;
+    }
+        
+    if (par == NULL)
+    {
+        root = child;
+    }
+    else if (ptr == par->Left)
+    {
+        par->Left = child;
+    }
+    else
+    {
+        par->Right = child;
+    } 
+ 
+    // Find successor and predecessor
+    Thtree* s = inSucc(ptr);
+    Thtree* p = inPred(ptr);
+ 
+    if (ptr->thLeft == false)
+    {
+        p->Right = s;
+    }
+    else
+    {
+        if (ptr->thRight == false)
+        {
+            s->Left = p;
+        }
+    }
+ 
+    free(ptr);
+    printf("Complete Delete\n\n");
+    return root;
+}
+
+Thtree* caseC(Thtree* root, Thtree* par, Thtree* ptr)
+{
+    Thtree* parsucc = ptr;
+    Thtree* succ = ptr->Right;
+ 
+    while (succ->thLeft==false)
+    {
+        parsucc = succ;
+        succ = succ->Left;
+    }
+ 
+    ptr->data = succ->data;
+ 
+    if (succ->thLeft == true && succ->thRight == true)
+    {
+        root = caseA(root, parsucc, succ);
+    } 
+    else
+    {
+        root = caseB(root, parsucc, succ);
+    }   
+ 
+    return root;
+}
+
+Thtree* Delete(Thtree* root, int input)
+{
+    Thtree *ptr = root;
+    Thtree *par = NULL;
+ 
+    bool found = false;
+
+    if (ptr == NULL)
+    {
+        printf("Tree is empty\n\n");
+    } 
+    while (ptr->thLeft == false)
+    {
+        ptr = ptr->Left;
+    }
+    while (ptr != NULL)
+    {
+        if (ptr->data == input)
+        {
+            found = true;
+            break;
+        }
+        ptr = InorderSuccessor(ptr);
+    }
+ 
+    if (found == false)
+    {
+        printf("Not Found in tree\n\n");
+    }   
+    // Two Children
+    else if (ptr->thLeft == false && ptr->thRight == false)
+    {
+        root = caseC(root, par, ptr);
+    }
+    // Only Left Child
+    else if (ptr->thLeft == false)
+    {
+        root = caseB(root, par, ptr);
+    }
+    // Only Right Child
+    else if (ptr->thRight == false)
+    {
+        root = caseB(root, par, ptr);
+    }
+    // No child
+    else
+    {
+        root = caseA(root, par, ptr);
+    }
+        
+    return root;
+}
 
 int main()
 {
@@ -241,7 +417,8 @@ int main()
                 }
                 break;
             case 2:
-                printf("加分題\n");
+                scanf("%d", &input);
+                root = Delete(root, input);
                 break;
             case 3:
                 Inorder(root);
