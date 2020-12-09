@@ -4,45 +4,99 @@
 typedef struct Node
 {
     int data;
-    Node* llink;
-    Node* rlink;
+    Node *left;
+    Node *right;
 } Node;
-
-void Insert(Node** tree, int val)
+ 
+Node* NewNode(int input)
 {
-    Node *temp = NULL;
+    Node* temp = (Node*)malloc(sizeof(Node));
+    temp->data = input;
+    temp->left = temp->right = NULL;
+    return temp;
+}
 
-    if(!(*tree)) // 樹是空的
+void Preorder(Node* root)
+{
+    if (root != NULL)
     {
-        temp = (Node*)malloc(sizeof(Node));
-        temp->llink = temp->rlink = NULL;
-        temp->data = val;
-        *tree = temp;
-        return;
-    }
-
-    if (val == (*tree)->data)
-    {
-        printf("%d already exit.\n", val);
-    }
-    else if(val < (*tree)->data)
-    {
-        Insert(&(*tree)->llink, val);
-    }
-    else if(val > (*tree)->data)
-    {
-        Insert(&(*tree)->rlink, val);
+        printf("%d  ",root->data);
+        Preorder(root->left);
+        Preorder(root->right);
     }
 }
 
-void Preorder(Node* tree)
+Node* Insert(Node* node, int input)
 {
-    if (tree)
+    if (node == NULL)
     {
-        printf("%d  ",tree->data);
-        Preorder(tree->llink);
-        Preorder(tree->rlink);
+        return NewNode(input);
     }
+ 
+    if (input == node->data)
+    {
+        printf("%d already exist.\n", input);
+    }
+    else if (input < node->data)
+    {
+        node->left = Insert(node->left, input);
+    }  
+    else
+    {
+        node->right = Insert(node->right, input);
+    }
+
+    return node;
+}
+
+Node* MinValueNode(Node* node)
+{
+    Node* current = node;
+ 
+    while (current && current->left != NULL)
+    {
+        current = current->left;
+    }  
+ 
+    return current;
+}
+
+Node* Delete(Node* root, int input)
+{
+    if (root == NULL)
+    {
+        return root;
+    }
+    
+    if (input < root->data)
+    {
+        root->left = Delete(root->left, input);
+    }
+    else if (input > root->data)
+    {
+        root->right = Delete(root->right, input);
+    }
+    else
+    {
+        if (root->left == NULL)
+        {
+            Node* temp = root->right;
+            free(root);
+            return temp;
+        }
+        else if (root->right == NULL)
+        {
+            Node* temp = root->left;
+            free(root);
+            return temp;
+        }
+ 
+        Node* temp = MinValueNode(root->right);
+        root->data = temp->data;
+        root->right = Delete(root->right, temp->data);
+    }
+
+    return root;
 }
 
 int main()
@@ -61,19 +115,28 @@ int main()
                 end = true;
                 break;
             case 1:
-                printf("Insert a number : ");
+                printf("Insert a number:");
                 scanf("%d", &input);
-                Insert(&root, input);
-                printf("Preorder  : ");
+                root = Insert(root, input);
+                printf("Preorder:");
                 Preorder(root);
                 printf("\n----------------------\n\n");
                 break;
             case 2:
+                if (root != NULL)
+                {
+                    printf("Delete a number:");
+                    scanf("%d", &input);
+                    root = Delete(root, input);
+                }
+                printf("Preorder:");
+                Preorder(root);
+                printf("\n----------------------\n\n");
                 break;
             default:
                 break;
         }
     }
-
+ 
     return 0;
 }
