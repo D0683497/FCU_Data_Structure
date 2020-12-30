@@ -1,26 +1,32 @@
----
-title: 資料結構實習[Week12-樹]
----
 # 資料結構實習[Week12-樹]
-------
+
 ## MAX/MIN Tree
-- 分為MAX/MIN Tree
-    - MAX
-        - 樹中每一個點，都不能比其孩子還要小
-    - MIN
-        - 樹中每一個點，都不能比其孩子還要大
+
+- MAX
+    - 樹中每一個點，都不能比其孩子還要小
+- MIN
+    - 樹中每一個點，都不能比其孩子還要大
+
 ## 引線二元樹 threaded binary tree
+
 ### 由來
-- 常見二元樹
+
+常見二元樹
+
 ![](https://i.imgur.com/lF0Tm2C.jpg)
-- 空間浪費問題
-    - 樹葉節點：leaf node EX：G、F、E、D 各還會空兩個NULL Link
-- 解決辦法
-    - 讓他接回另一個node
-    - 最左與最右樹葉節點則接回root node
+
+空間浪費問題
+
+樹葉節點：leaf node EX：G、F、E、D 各還會空兩個NULL Link
+
+解決辦法
+- 讓他接回另一個node
+- 最左與最右樹葉節點則接回root node
+
 ![](https://i.imgur.com/MHUN4Sl.jpg)
 
 - 常件二元樹結構
+
 ```c=
 struct tree {
     int data;     
@@ -40,19 +46,21 @@ struct thtree {
 };
 ```
 
-
-
-
 ## 課堂練習
+
 ### MAX threaded binary tree
-> 用`Linked List`實作引線二元樹，並完成以下要求：
-> 需實作功能清單
-> 達成 MAX Tree 的特性
-> 實作功能包含：1.插入、2.刪除、3.輸出樹目前的樣子、4.讀取右or左引線
+
+用`Linked List`實作引線二元樹，並完成以下要求：
+需實作功能清單
+達成 MAX Tree 的特性
+實作功能包含：
+1. 插入
+2. 刪除
+3. 輸出樹目前的樣子
+4. 讀取右or左引線
 
 功能清單
 ```
-
 MAX threaded binary tree
 --------
 1. Insert
@@ -63,8 +71,8 @@ MAX threaded binary tree
 choose your operation:
 ```
 
-:::info
-### 各功能規範
+#### 各功能規範
+
 - 功能1
     - 插入時須滿足Complete的特性
     - 若輸入的數為**0**時，才印出上列要求，否則請**繼續輸入**。
@@ -79,7 +87,6 @@ choose your operation:
 - 功能4
     - 輸入要找尋的節點，回傳左右引線所連結的node值
         - 若其非為引線（threaded），則輸出==Not a threaded==
-:::
 
 範例輸出
 ```=
